@@ -7,6 +7,21 @@
 
 using namespace std;
 
+
+void info(){
+    cout << "Command and Arguments: \n";
+    cout << "./minigit init                               ->   initialize an empty git repository in the current dir\n";
+    cout << "./minigit add <'.'or 'file_name(s)'>           ->   add the file(s) to staging area ('.' for all files)\n";
+    cout << "./minigit commit -m <'commit message'>       ->   commit your staging files\n";
+    cout << "./minigit log                                ->   show commit history\n";
+    cout << "./minigit branch <branch_name>               ->   create a new branch\n";
+    cout << "./minigit branch <branch>               ->   view branch list\n";
+    cout << "./minigit checkout <branch_name_or_commit_hash> ->   switch to a branch or a commit\n";
+    cout << "./minigit merge <branch_name>                ->   merge changes from another branch\n";
+    cout << "./minigit diff <file1> <file2>               ->   show differences between two files\n";
+}
+
+
 int main(int argc, char* argv[]){
   
   MiniGit git;
@@ -59,22 +74,38 @@ int main(int argc, char* argv[]){
               git.viewLog();
             } else if (command == "branch") {
             if (argc < 3) {
-                cout << "missing arguments!\n";
-                cout << "Provide a branch name e.g.\n";
-                cout << "./minigit branch <branch_name>\n";
+                git.showBranches();
             } else {
                 string name = string(argv[2]);
                 git.branching(name);
             }
         } else if (command == "checkout"){
               git.checkOut(argv[2]);
-        } else{
+        } else if (command == "merge") {
+            if (argc < 3) {
+                cout << "missing arguments!" << endl;
+                cout << "Provide a branch name to merge from e.g." << endl;
+                cout << "./minigit merge <branch_name>" << endl;
+            } else {
+                git.mergeBranch(argv[2]);
+            }
+        } else if (command == "diff") {
+            if (argc < 4) {
+                cout << "missing arguments!" << endl;
+                cout << "Provide two file paths e.g." << endl;
+                cout << "./minigit diff <file1> <file2>" << endl;
+            } else {
+                string file1 = string(argv[2]);
+                string file2 = string(argv[3]);
+                git.diffViewer(file1, file2);
+            }
+        }else{
           cout <<"Invalid Commmand\n";
+          info();
         }
       } else {
-          cout<< "Minigit is a custom lightweight version of Git we implemented for this project.\n" 
-          << "Use the following commands:\n"
-          <<"\t./Minigit init -> to initialize the repository.\n";
+          cout<< "Minigit is a custom lightweight version of Git we implemented for this project.\n";
+          info();
       }
   
   return 0;
