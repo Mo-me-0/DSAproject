@@ -1,8 +1,3 @@
-//#include <iostream>
-//#include <string>
-//#include <filesystem>
-//#include "fileUtils.cpp"
-//#include "commitList.cpp"
 #include "MiniGit.cpp"
 
 using namespace std;
